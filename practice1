@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS Groupp (
+Gr_ID INT NOT NULL,
+Gr_Name VARCHAR(20) NOT NULL,
+Gr_St_Quant INT NOT NULL,
+PRIMARY KEY (Gr_ID));
+
+CREATE TABLE IF NOT EXISTS Students (
+St_ID INT NOT NULL,
+Gr_ID INT NOT NULL,
+St_Name VARCHAR(40) NOT NULL,
+Avg_Mark DOUBLE NOT NULL,
+PRIMARY KEY (St_ID),
+FOREIGN KEY (Gr_ID) REFERENCES Groupp(Gr_ID) ON DELETE CASCADE ON UPDATE CASCADE);
+
+insert into Groupp(Gr_ID, Gr_Name, Gr_St_Quant) values (1,'4030M',15), (2, '4031M',20), (3, '4032M',25);
+insert into Students(St_ID, Gr_ID, St_Name, Avg_Mark) values (1, 1, 'Andreev', 4.6),
+(2, 1, 'Olegov', 4.6),
+(3, 1, 'Ivanov', 4.2),
+(4, 1, 'Petrov', 4.9),
+(5, 1, 'Sidorov', 3.3),
+(6, 2, 'Igorev', 3.1),
+(7, 2, 'Filatov', 4.6),
+(8, 2, 'Rybakov', 4.6),
+(9, 2, 'Konovalov', 4.6),
+(10, 2, 'Aleksandrova', 4.7),
+(11, 3, 'Malikova', 4.8),
+(12, 3, 'Popova', 4.8),
+(13, 3, 'Chizkov', 2.9),
+(14, 3, 'Vorobiev', 3.1),
+(15, 3, 'Galushkin', 3.2);
+Select distinct Gr_Name from Groupp G join Students S on G.Gr_ID = S.Gr_ID
+where Avg_Mark >= 3.5 ```
+
+--- Мой вариант 
+SELECT Groupp.Gr_name, COUNT(Students.avg_mark)
+FROM Groupp  
+INNER JOIN Students
+       ON Groupp.Gr_ID = Students.Gr_ID
+WHERE Avg_Mark >= 3.5
+GROUP BY Groupp.Gr_name
